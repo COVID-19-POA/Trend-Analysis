@@ -1,14 +1,17 @@
+// Class to manage all data from charts and how they interact between them
+
 class DataManager {
   constructor() {
     this.baseData = {};
-    this.transformations = {};
     this.listeners = {};
   }
 
+  // Auxiliary function to call all callbacks registered on name
   callListeners(name) {
     (this.listeners[name] || []).forEach(listener => listener(this.baseData[name]));
   }
 
+  // Register listener on name. When data on register on a name is changed or registered, all callbacks registered on that name will be called
   registerListener(name, callback) {
     if (!this.listeners[name]) {
       this.listeners[name] = [callback]
@@ -21,29 +24,28 @@ class DataManager {
     }
   }
 
+  // Register data on a name
   resisterData(name, data) {
     this.baseData[name] = data;
     this.callListeners(name);
   }
 
+  // Take a data, new or already registered, apply a function on it and save it on a new name
   registerDataFromTransformation(name, baseData, transformation) {
     baseData = typeof baseData === 'string' ? this.baseData[baseData] : baseData;
-    transformation = typeof transformation === 'string' ? this.transformations[transformation] : transformation;
 
     this.baseData[name] = transformation(baseData);
     this.callListeners(name);
   }
 
+  // Get registered data
   getData(name) {
     return this.baseData[name];
   }
 
+  // Remove data registry
   removeData(name) {
     delete this.baseData[name];
-  }
-
-  registerTransformation(name, transformation) {
-    this.transformations[name] = transformation;
   }
 }
 

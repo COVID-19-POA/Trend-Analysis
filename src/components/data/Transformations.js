@@ -1,5 +1,6 @@
 import regression from 'regression';
 
+// Get raw data from the API and group the by country name
 export function groupConfirmedByCountryName(covidData) {
   const mergeHistory = (h1, h2) => {
     Object.keys(h1).forEach(day => h2[day] = h2[day] ? h2[day] + h1[day] : h1[day]);
@@ -29,6 +30,9 @@ export function groupConfirmedByCountryName(covidData) {
   return countries;
 }
 
+// Helper function based on an idea that the transformation is basically taking the value from each coutry,
+// apply filters, process it, and post processing the result in some whay.
+// This will return a function that will be used as a transformation for the Data Manager
 export function processData(preProcess, process, postProcess) {
   return (covidData) => {
     const data = Object.keys(covidData).map(countryName => {
@@ -39,6 +43,10 @@ export function processData(preProcess, process, postProcess) {
   }
 }
 
+// Pre Processing Functions
+// ############################################################
+
+// Returns a function that will filter the countries that only have 1000 cases or more
 export function getCountriesWith1000CasesOrMore(countryName) {
   return (covidData) => {
     const historyKeys = Object.keys(covidData[countryName].history).filter(date => {
@@ -55,6 +63,7 @@ export function getCountriesWith1000CasesOrMore(countryName) {
   }
 }
 
+// Returns a function that will filter the countries that only have 7 days or more since having its first case
 export function getCountriesWith7DaysOrMore(countryName) {
   return (covidData) => {
     const historyKeys = Object.keys(covidData[countryName].history).filter(date => covidData[countryName].history[date] > 0);
@@ -72,7 +81,12 @@ export function getCountriesWith7DaysOrMore(countryName) {
     }
   }
 }
+// ############################################################
 
+// Processing Functions
+// ############################################################
+
+// Create weekly windows of history and calculate the linear regression for each country
 export function getExpGrowthRateByCountry(countryName) {
   return (covidData, historyKeys) => {
     const firstDate = new Date(historyKeys[0]);
@@ -104,6 +118,7 @@ export function getExpGrowthRateByCountry(countryName) {
   }
 }
 
+// Take the last week of each country and create the log of the cases value on the week 
 export function getLastWeekLogSlice(countryName) {
   return (covidData, historyKeys) => {
     const firstDate = new Date(historyKeys[0]);
@@ -123,11 +138,17 @@ export function getLastWeekLogSlice(countryName) {
     });
   }
 }
+// ############################################################
 
+// Post Processing functions
+// ############################################################
+
+// Take an array of arrays and create a one dimensional array of it
 export function flatResults(parsedData) {
   return [].concat.apply([], parsedData)
 }
 
+// Calculate the linear regression of a window and take the increase percentage rate. Group by percentage rate.
 export function groupByRate(parsedData) {
   const percentageRate = (a) => 100 * ((Math.E ** a) - 1);
   const result = [
@@ -200,6 +221,8 @@ export function groupByRate(parsedData) {
 
   return result;
 }
+// ############################################################
+
 
 export const processUntilLastWeekSlice = processData(getCountriesWith7DaysOrMore, getLastWeekLogSlice);
 
