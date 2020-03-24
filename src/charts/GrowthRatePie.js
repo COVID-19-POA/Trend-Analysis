@@ -65,37 +65,37 @@ export class GrowthRatePie extends Component {
     const result = [
       {
         slice: '0% - 10%',
-        condition: (a) => percentageRate(a) < 10,
+        condition: (a) => percentageRate(a) <= 10,
         count: 0
       },
       {
         slice: '10% - 20%',
-        condition: (a) => percentageRate(a) >= 10 && percentageRate(a) < 20,
+        condition: (a) => percentageRate(a) > 10 && percentageRate(a) <= 20,
         count: 0
       },
       {
         slice: '20% - 30%',
-        condition: (a) => percentageRate(a) >= 20 && percentageRate(a) < 30,
+        condition: (a) => percentageRate(a) > 20 && percentageRate(a) <= 30,
         count: 0
       },
       {
         slice: '30% - 40%',
-        condition: (a) => percentageRate(a) >= 30 && percentageRate(a) < 40,
+        condition: (a) => percentageRate(a) > 30 && percentageRate(a) <= 40,
         count: 0
       },
       {
         slice: '40% - 50%',
-        condition: (a) => percentageRate(a) >= 40 && percentageRate(a) < 50,
+        condition: (a) => percentageRate(a) > 40 && percentageRate(a) <= 50,
         count: 0
       },
       {
         slice: '50% - 60%',
-        condition: (a) => percentageRate(a) >= 50 && percentageRate(a) < 60,
+        condition: (a) => percentageRate(a) > 50 && percentageRate(a) <= 60,
         count: 0
       },
       {
         slice: '60% - 100%',
-        condition: (a) => percentageRate(a) >= 60 && percentageRate(a) < 100,
+        condition: (a) => percentageRate(a) > 60 && percentageRate(a) <= 100,
         count: 0
       },
       {
