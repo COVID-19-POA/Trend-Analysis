@@ -23,7 +23,7 @@ export class GrowthRatePie extends Component {
       .color('slice')
       .label('percent', {
         content: (data) => {
-          return `${data.slice}: ${(data.percent * 100).toFixed(2)}%`;
+          return `${(data.percent * 100).toFixed(2)}%`;
         },
       })
       .adjust('stack');
@@ -61,7 +61,7 @@ export class GrowthRatePie extends Component {
   }
 
   parseData(covidData) {
-    const percentageRate = (a) => 100 * (Math.pow(Math.E, a) - 1);
+    const percentageRate = (a) => 100 * ((Math.E ** a) - 1);
     const result = [
       {
         slice: '0% - 10%',
@@ -115,17 +115,9 @@ export class GrowthRatePie extends Component {
 
     let total = 0;
 
-
     Object.keys(covidData).forEach(countryName => {
-      Object.keys(covidData[countryName].history).forEach(date => {
-        if (covidData[countryName].history[date] <= 0) {
-          delete covidData[countryName].history[date];
-        }
-      })
-      if (covidData[countryName].history.length < 7) {
-        delete covidData[countryName]
-      } else {
-        const historyKeys = Object.keys(covidData[countryName].history);
+      const historyKeys = Object.keys(covidData[countryName].history).filter(date => covidData[countryName].history[date] > 0);
+      if (historyKeys.length >= 7) {
 
         historyKeys.sort(function (a, b) {
           a = new Date(a);
@@ -135,37 +127,32 @@ export class GrowthRatePie extends Component {
 
         const firstDate = new Date(historyKeys[0]);
 
-        const historySlices = historyKeys
-          .map((_, index) => historyKeys.slice(index, index + 7))
-          .filter(slice => slice.length === 7)
-          .map(slice => {
-            const sliceLog = slice.map(date => {
-              const dateCases = covidData[countryName].history[date];
-              const logCases = Math.log(dateCases);
+        const lastWeek = historyKeys.slice(-7);
 
-              const caseDate = new Date(date);
-              const timeDiff = caseDate.getTime() - firstDate.getTime();
-              const timeInDays = timeDiff / (1000 * 3600 * 24);
+        const sliceLog = lastWeek.map(date => {
+          const dateCases = covidData[countryName].history[date];
+          const logCases = Math.log(dateCases);
+
+          const caseDate = new Date(date);
+          const timeDiff = caseDate.getTime() - firstDate.getTime();
+          const timeInDays = timeDiff / (1000 * 3600 * 24);
 
 
-              return [timeInDays, logCases];
-            });
+          return [timeInDays, logCases];
+        });
 
-            return regression.linear(sliceLog).equation[0];
-          });
+        const rate = regression.linear(sliceLog).equation[0];
 
-        total += historySlices.length;
-        historySlices.forEach((rate) => addToGroup(rate));
+        total++;
 
+        addToGroup(rate);
       }
     });
 
     result.forEach(type => {
       delete type.condition;
-      type.percent = Number((type.count / total).toFixed(2));
+      type.percent = Number((type.count / total).toFixed(4));
     });
-
-    console.log(result);
 
     return result;
   }

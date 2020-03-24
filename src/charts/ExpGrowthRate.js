@@ -75,46 +75,44 @@ export class ExpGrowthRateChart extends Component {
     let result = [];
 
     Object.keys(covidData).forEach(countryName => {
-      if (covidData[countryName].cases < 1000) {
-        delete covidData[countryName]
-      } else {
-        const historyKeys = Object.keys(covidData[countryName].history).filter(date => covidData[countryName].history[date] > 0);
+      const historyKeys = Object.keys(covidData[countryName].history).filter(date => {
+        return covidData[countryName].history[date] > 0 && covidData[countryName].cases >= 1000;
+      });
 
-        historyKeys.sort(function (a, b) {
-          a = new Date(a);
-          b = new Date(b);
-          return a.getTime() - b.getTime();
-        });
+      historyKeys.sort(function (a, b) {
+        a = new Date(a);
+        b = new Date(b);
+        return a.getTime() - b.getTime();
+      });
 
-        const firstDate = new Date(historyKeys[0]);
+      const firstDate = new Date(historyKeys[0]);
 
-        const historySlices = historyKeys
-          .map((_, index) => historyKeys.slice(index, index + 7))
-          .filter(slice => slice.length === 7)
-          .map(slice => {
-            const sliceLog = slice.map(date => {
-              const dateCases = covidData[countryName].history[date];
-              const logCases = Math.log(dateCases);
+      const historySlices = historyKeys
+        .map((_, index) => historyKeys.slice(index, index + 7))
+        .filter(slice => slice.length === 7)
+        .map(slice => {
+          const sliceLog = slice.map(date => {
+            const dateCases = covidData[countryName].history[date];
+            const logCases = Math.log(dateCases);
 
-              const caseDate = new Date(date);
-              const timeDiff = caseDate.getTime() - firstDate.getTime();
-              const timeInDays = timeDiff / (1000 * 3600 * 24);
+            const caseDate = new Date(date);
+            const timeDiff = caseDate.getTime() - firstDate.getTime();
+            const timeInDays = timeDiff / (1000 * 3600 * 24);
 
 
-              return [timeInDays, logCases];
-            });
-
-            const regressionResult = regression.linear(sliceLog);
-
-            return {
-              name: countryName,
-              daysSinceFirstCase: sliceLog[0][0],
-              expGrowth: regressionResult.equation[0]
-            }
+            return [timeInDays, logCases];
           });
 
-        result = result.concat(historySlices);
-      }
+          const regressionResult = regression.linear(sliceLog);
+
+          return {
+            name: countryName,
+            daysSinceFirstCase: sliceLog[0][0],
+            expGrowth: regressionResult.equation[0]
+          }
+        });
+
+      result = result.concat(historySlices);
     });
 
     return result;

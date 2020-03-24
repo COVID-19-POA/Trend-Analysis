@@ -74,7 +74,7 @@ class App extends Component {
             <p>
             Na última semana de dados que utilizamos para análise (9/mar - 15/mar), encontramos quea maioria dos países estão tendo um aumento de casos diário entre 20% e 50% - ou seja, 
             se em um dia temos 1000 casos, no dia seguinte vamos ter de 1200 a 1500 casos. 
-            Abaixotemos a lista de quais países se encontram em cada categoria.
+            Abaixo temos a lista de quais países se encontram em cada categoria.
             </p>
           </InfoPanel>
           <GrowthRatePie data={this.state.data} />
