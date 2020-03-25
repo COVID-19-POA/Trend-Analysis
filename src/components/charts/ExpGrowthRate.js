@@ -3,13 +3,18 @@ import { Chart } from '@antv/g2';
 import { dataManager } from '../data/DataManager';
 import { exponentialGrowthRateByCountry } from '../data/Transformations';
 import { IntegerInput } from '../helpers/IntegerInput';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export class ExpGrowthRateChart extends Component {
   constructor() {
     super();
 
     this.state = {
-      value: 1000
+      value: 1000,
+      loaded: false
     }
   }
 
@@ -18,11 +23,12 @@ export class ExpGrowthRateChart extends Component {
   }
 
   updateChartSize = () => {
-    const parentElement = document.getElementById('expGrowthContainer').parentElement;
-    this.chart.changeSize(parentElement.offsetWidth - 10, parentElement.offsetHeight >= 350 ? parentElement.offsetHeight - 42 : 350);
+    const parentElement = document.getElementById('expGrowthContainer');
+    this.chart.changeSize(parentElement.offsetWidth - 10, parentElement.offsetHeight >= 350 ? parentElement.offsetHeight - 10 : 350);
   }
 
   updateChart = (covidData, filterNumberOfCases = 1000) => {
+    this.setState({ loaded: true })
     covidData = exponentialGrowthRateByCountry(filterNumberOfCases)(covidData);
 
     this.chart.changeData(covidData);
@@ -31,7 +37,8 @@ export class ExpGrowthRateChart extends Component {
       .line()
       .position('daysSinceFirstCase*expGrowth')
       .color('name')
-      .shape('smooth');
+      .shape('smooth')
+      .animate(false);
 
     this.chart.scale('daysSinceFirstCase', {
       alias: 'Days from Outbreak'
@@ -91,7 +98,9 @@ export class ExpGrowthRateChart extends Component {
   render() {
     return (
       <div className="container">
-        <div id="expGrowthContainer" />
+        <div className="chart" id="expGrowthContainer">
+          {this.state.loaded ? null : <Spin indicator={antIcon} />}
+        </div>
         <div className="inpFlex">
           <span>Number of confirmed cases: </span>
           <IntegerInput value={this.state.value} onChange={this.onChange} />

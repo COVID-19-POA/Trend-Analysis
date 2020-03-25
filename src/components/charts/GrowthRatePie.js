@@ -2,8 +2,20 @@ import React, { Component } from 'react';
 import { Chart } from '@antv/g2';
 import { dataManager } from '../data/DataManager';
 import { groupByRate } from '../data/Transformations';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export class GrowthRatePie extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      loaded: false
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateChartSize);
   }
@@ -14,6 +26,7 @@ export class GrowthRatePie extends Component {
   }
 
   updateData = (covidData) => {
+    this.setState({ loaded: true })
     covidData = groupByRate(covidData);
 
     this.chart.changeData(covidData);
@@ -63,7 +76,9 @@ export class GrowthRatePie extends Component {
 
   render() {
     return (
-      <div id="growthRatePieContainer" className="container" />
+      <div id="growthRatePieContainer" className="container chart">
+        {this.state.loaded ? null : <Spin indicator={antIcon} />}
+      </div>
     );
   }
 }
