@@ -4,14 +4,16 @@ import { ExpGrowthRateChart } from './charts/ExpGrowthRate';
 import '../style/App.css';
 import { InfoPanel } from './InfoPanel';
 import { GrowthRatePie } from './charts/GrowthRatePie';
+import { ExpPrevChart } from './charts/ExpPrev';
 import { dataManager } from './data/DataManager';
-import { groupConfirmedByCountryName, processUntilLastWeekSlice } from './data/Transformations';
+import { groupConfirmedByCountryName, processUntilLastWeekSlice, exponentialCoefRateByCountry } from './data/Transformations';
 
 class App extends Component {
   componentDidMount() {
     data.all().then((covidData) => {
       dataManager.registerDataFromTransformation('base', covidData, groupConfirmedByCountryName);
       dataManager.registerDataFromTransformation('lastWeekSlice', 'base', processUntilLastWeekSlice);
+      dataManager.registerDataFromTransformation('nextWeekPrev', 'base', exponentialCoefRateByCountry);
     });
   }
 
@@ -37,6 +39,7 @@ class App extends Component {
             </p>
           </InfoPanel>
           <GrowthRatePie />
+          <ExpPrevChart />
         </div>
       </div>
     );

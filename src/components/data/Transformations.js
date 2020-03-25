@@ -138,6 +138,29 @@ export function getLastWeekLogSlice(countryName) {
     });
   }
 }
+
+export function getLastWeekLogCountry(countryName) {
+  return (covidData, historyKeys) => {
+    const firstDate = new Date(historyKeys[0]);
+
+    const lastWeek = historyKeys.slice(-7);
+
+    const weekLogMap = lastWeek.map(date => {
+      const dateCases = covidData[countryName].history[date];
+      const logCases = Math.log(dateCases);
+
+      const caseDate = new Date(date);
+      const timeDiff = caseDate.getTime() - firstDate.getTime();
+      const timeInDays = timeDiff / (1000 * 3600 * 24);
+
+
+      return [timeInDays, logCases];
+    });
+    return { name: countryName, data: weekLogMap }
+  }
+}
+
+
 // ############################################################
 
 // Post Processing functions
@@ -146,6 +169,22 @@ export function getLastWeekLogSlice(countryName) {
 // Take an array of arrays and create a one dimensional array of it
 export function flatResults(parsedData) {
   return [].concat.apply([], parsedData)
+}
+
+export function expRate(data) {
+  return data.map(param => {
+    if (param.data.length !== 0){
+      const a = regression.linear(param.data).equation[0];
+      const b = regression.linear(param.data).equation[1];
+      const t0 = param.data[6][0]
+      const casePrev = []
+      for (let t = t0; t < t0 + 7; t++) {
+        const rate = Math.E ** (a * t + b)
+        casePrev.push({ name: param.name, data: rate, day: t-t0+1 })
+      }
+      return casePrev
+    }
+  }).filter(value => value)
 }
 
 // Calculate the linear regression of a window and take the increase percentage rate. Group by percentage rate.
@@ -227,3 +266,5 @@ export function groupByRate(parsedData) {
 export const processUntilLastWeekSlice = processData(getCountriesWith7DaysOrMore, getLastWeekLogSlice);
 
 export const exponentialGrowthRateByCountry = processData(getCountriesWith1000CasesOrMore, getExpGrowthRateByCountry, flatResults);
+
+export const exponentialCoefRateByCountry = processData(getCountriesWith1000CasesOrMore, getLastWeekLogCountry, expRate);
