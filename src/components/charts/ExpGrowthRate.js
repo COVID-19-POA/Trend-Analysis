@@ -2,19 +2,28 @@ import React, { Component } from 'react';
 import { Chart } from '@antv/g2';
 import { dataManager } from '../data/DataManager';
 import { exponentialGrowthRateByCountry } from '../data/Transformations';
+import { IntegerInput } from '../helpers/IntegerInput';
 
 export class ExpGrowthRateChart extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      value: 1000
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateChartSize);
   }
 
   updateChartSize = () => {
-    const element = document.getElementById('expGrowthContainer');
-    this.chart.changeSize(element.offsetWidth - 10, element.offsetHeight >= 400 ? element.offsetHeight - 10 : 400);
+    const parentElement = document.getElementById('expGrowthContainer').parentElement;
+    this.chart.changeSize(parentElement.offsetWidth - 10, parentElement.offsetHeight >= 350 ? parentElement.offsetHeight - 42 : 350);
   }
 
-  updateData = (covidData) => {
-    covidData = exponentialGrowthRateByCountry(covidData);
+  updateChart = (covidData, filterNumberOfCases = 1000) => {
+    covidData = exponentialGrowthRateByCountry(filterNumberOfCases)(covidData);
 
     this.chart.changeData(covidData);
 
@@ -62,20 +71,32 @@ export class ExpGrowthRateChart extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.updateChartSize);
     const element = document.getElementById('expGrowthContainer');
-
     this.chart = new Chart({
       container: element,
-      height: element.offsetHeight >= 400 ? element.offsetHeight - 10 : 400,
+      height: 0,
       renderer: 'canvas'
     });
 
-    this.updateChartSize();
-    dataManager.registerListener('base', this.updateData);
+    dataManager.registerListener('base', this.updateChart);
+  }
+
+  onChange = (value) => {
+    this.setState({ value });
+
+    // Debounce value to not redraw the chart too many times
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => this.updateChart(dataManager.getData('base'), value), 200)
   }
 
   render() {
     return (
-      <div id="expGrowthContainer" className="container" />
+      <div className="container">
+        <div id="expGrowthContainer" />
+        <div className="inpFlex">
+          <span>Number of confirmed cases: </span>
+          <IntegerInput value={this.state.value} onChange={this.onChange} />
+        </div>
+      </div>
     );
   }
 }

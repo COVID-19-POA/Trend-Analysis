@@ -10,7 +10,7 @@ export class GrowthRatePie extends Component {
 
   updateChartSize = () => {
     const element = document.getElementById('growthRatePieContainer');
-    this.chart.changeSize(element.offsetWidth - 10, element.offsetHeight >= 400 ? element.offsetHeight - 10 : 400);
+    this.chart.changeSize(element.offsetWidth - 10, element.offsetHeight >= 350 ? element.offsetHeight - 42 : 350);
   }
 
   updateData = (covidData) => {
@@ -50,7 +50,7 @@ export class GrowthRatePie extends Component {
 
     this.chart = new Chart({
       container: element,
-      height: element.offsetHeight >= 400 ? element.offsetHeight - 10 : 400,
+      height: 0,
       renderer: 'canvas'
     });
 
@@ -58,7 +58,6 @@ export class GrowthRatePie extends Component {
       radius: 0.75,
     });
 
-    this.updateChartSize();
     dataManager.registerListener('lastWeekSlice', this.updateData);
   }
 
