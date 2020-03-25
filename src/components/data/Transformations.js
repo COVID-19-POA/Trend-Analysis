@@ -47,10 +47,10 @@ export function processData(preProcess, process, postProcess) {
 // ############################################################
 
 // Returns a function that will filter the countries that only have 1000 cases or more
-export function getCountriesWith1000CasesOrMore(countryName) {
+export const getCountriesWithNCasesOrMore = (n) => (countryName) => {
   return (covidData) => {
     const historyKeys = Object.keys(covidData[countryName].history).filter(date => {
-      return covidData[countryName].history[date] > 0 && covidData[countryName].cases >= 1000;
+      return covidData[countryName].history[date] > 0 && covidData[countryName].cases >= n;
     });
 
     historyKeys.sort(function (a, b) {
@@ -265,6 +265,6 @@ export function groupByRate(parsedData) {
 
 export const processUntilLastWeekSlice = processData(getCountriesWith7DaysOrMore, getLastWeekLogSlice);
 
-export const exponentialGrowthRateByCountry = processData(getCountriesWith1000CasesOrMore, getExpGrowthRateByCountry, flatResults);
+export const exponentialGrowthRateByCountry = (n) => processData(getCountriesWithNCasesOrMore(n), getExpGrowthRateByCountry, flatResults);
 
 export const exponentialCoefRateByCountry = processData(getCountriesWith1000CasesOrMore, getLastWeekLogCountry, expRate);
