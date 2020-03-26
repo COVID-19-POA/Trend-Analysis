@@ -41,6 +41,7 @@ export class ExpGrowthRateChart extends Component {
       .animate(false);
 
     this.chart.scale('daysSinceFirstCase', {
+      ticks: [7, 20, 40, 60],
       alias: 'Days from Outbreak'
     });
 
@@ -54,7 +55,7 @@ export class ExpGrowthRateChart extends Component {
     });
 
     this.chart.scale('expGrowth', {
-      alias: 'Power-Law Exponent'
+      alias: 'Percentage Growth Rate'
     });
 
     this.chart.axis('expGrowth', {
@@ -67,7 +68,6 @@ export class ExpGrowthRateChart extends Component {
     });
 
     this.chart.tooltip({
-      showTitle: false,
       showCrosshairs: true,
     });
 

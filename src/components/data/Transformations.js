@@ -104,15 +104,17 @@ export function getExpGrowthRateByCountry(countryName) {
           const timeInDays = timeDiff / (1000 * 3600 * 24);
 
 
-          return [timeInDays, logCases];
+          return [timeInDays + 7, logCases];
         });
 
-        const regressionResult = regression.linear(sliceLog);
+        const a = regression.linear(sliceLog).equation[0];
+
+        const result = parseFloat((100 * ((Math.E ** a) - 1)).toFixed(2))
 
         return {
           name: countryName,
           daysSinceFirstCase: sliceLog[0][0],
-          expGrowth: regressionResult.equation[0]
+          expGrowth: result
         }
       });
   }
