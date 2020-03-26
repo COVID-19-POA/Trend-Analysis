@@ -22,7 +22,12 @@ class App extends Component {
     return (
       <Layout className="App">
         <Header className="header">
-          <h2>Trend analysis of the COVID-19 pandemic</h2>
+          <div className="headerContent">
+            <span className="title">Trend analysis of the COVID-19 pandemic</span>
+            <a className="link" rel="noopener noreferrer" target="_blank" href="https://www.medrxiv.org/content/10.1101/2020.03.19.20037192v1">
+              Article
+            </a>
+          </div>
         </Header>
         <Content className="content">
           <div className="mainContainer">
