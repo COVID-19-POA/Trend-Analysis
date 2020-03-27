@@ -16,22 +16,26 @@ html, body, #root, .App {
 .headerContent {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   max-width: 1200px;
   padding: 0 30px;
 }
 
+.headerContent > * {
+  line-height: 1.5;
+  color: #1b0000;
+}
+
 .headerContent > .title {
   text-align: start;
   flex: 1;
-  line-height: 1.5;
   font-size: 16px;
   font-weight: 600;
 }
 
 .headerContent > .link {
-  color: rgba(0, 0, 0, 0.85);
   text-decoration: underline;
 }
 
@@ -109,5 +113,9 @@ html, body, #root, .App {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
+  }
+
+  .header {
+    padding: 0;
   }
 }
