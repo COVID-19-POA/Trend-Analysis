@@ -55,7 +55,7 @@ export class ExpGrowthRateChart extends Component {
     });
 
     this.chart.scale('expGrowth', {
-      alias: 'Porcentagem de taxa de crescimento'
+      alias: 'Taxa de crescimento percentual'
     });
 
     this.chart.axis('expGrowth', {
@@ -102,7 +102,7 @@ export class ExpGrowthRateChart extends Component {
           {this.state.loaded ? null : <Spin indicator={antIcon} />}
         </div>
         <div className="inpFlex">
-          <span>Número de Casos por Dia: </span>
+          <span>Número de Casos Acumulados: </span>
           <IntegerInput value={this.state.value} onChange={this.onChange} />
         </div>
       </div>

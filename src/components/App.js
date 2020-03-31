@@ -76,7 +76,7 @@ class App extends Component {
                 <br />
                 <br />
 
-                Com poucas excepções (China, S. Korea ou US) o pico de taxa, geralmente maior que 50%, aparece como
+                Com poucas exceções (China, S. Korea ou US) o pico de taxa, geralmente maior que 50%, aparece como
                 uma caraterística comum a quase todos os países com mais de 5000 casos até 30 de Março.
                 Depois do forte declínio posterior, correspondente a implantação de medidas de mitigação
                 como fechamento de escolas e comércios, até quarentenas ou controle de movimento,
