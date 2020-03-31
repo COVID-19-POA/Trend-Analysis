@@ -93,7 +93,7 @@ class App extends Component {
                 <br />
                   <br />
                   Os países que conseguiram controlar a epidemia (como China e South Korea), se mantendo
-                  em regime sub-exponencial (ou com Ro &lt; 1), ou aparentam estar próximos de controlar (Japão),
+                  em regime sub-exponencial (ou com R0 &lt; 1), ou aparentam estar próximos de controlar (Japão),
                   tem taxas inferiores a 10% (porção azul, 0-10%).
                   Porém, quase todos os países estão ou continuam em regime de crescimento exponencial,
                   independentemente da data inicial do surto, com taxas acima de 10%.
