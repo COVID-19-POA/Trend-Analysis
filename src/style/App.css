@@ -42,6 +42,8 @@ html, body, #root, .App {
 .footer {
   text-align: center;
   background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {

@@ -37,7 +37,7 @@ export class GrowthRatePie extends Component {
       .color('slice')
       .label('percent', {
         content: (data) => {
-          return `${(data.percent * 100).toFixed(2)}%`;
+          return `${(data.percent * 100).toFixed(0)}%`;
         },
       })
       .adjust('stack');
@@ -48,10 +48,7 @@ export class GrowthRatePie extends Component {
       radius: 0.75,
     });
 
-    this.chart.tooltip({
-      showTitle: false,
-      showCrosshairs: false,
-    });
+    this.chart.tooltip(false);
 
     this.chart.render();
     this.updateChartSize();

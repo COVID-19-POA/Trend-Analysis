@@ -42,7 +42,7 @@ export class ExpGrowthRateChart extends Component {
 
     this.chart.scale('daysSinceFirstCase', {
       ticks: [7, 20, 40, 60],
-      alias: 'Days from Outbreak'
+      alias: 'Dias a partir do primeiro caso'
     });
 
     this.chart.axis('daysSinceFirstCase', {
@@ -55,7 +55,7 @@ export class ExpGrowthRateChart extends Component {
     });
 
     this.chart.scale('expGrowth', {
-      alias: 'Percentage Growth Rate'
+      alias: 'Porcentagem de taxa de crescimento'
     });
 
     this.chart.axis('expGrowth', {
@@ -102,7 +102,7 @@ export class ExpGrowthRateChart extends Component {
           {this.state.loaded ? null : <Spin indicator={antIcon} />}
         </div>
         <div className="inpFlex">
-          <span>Number of confirmed cases: </span>
+          <span>Número de Casos por Dia: </span>
           <IntegerInput value={this.state.value} onChange={this.onChange} />
         </div>
       </div>
