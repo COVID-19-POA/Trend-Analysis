@@ -116,7 +116,7 @@ class App extends Component {
             </div>
           </div>
           <Modal
-            title="Ressalva sobre Uso de Dados"
+            title="Esclarecimento sobre Uso de Dados"
             visible={this.state.modalVisible}
             footer={null}
             onCancel={this.handleCancel}
@@ -144,7 +144,7 @@ class App extends Component {
           <span>Feito por João Pedro Pianta, Albertine Weber e Sebastian Gonçalves</span>
           <span>
             <Button type="link" onClick={this.showDataDisclaimer}>
-              Ressalva sobre uso de Dados
+              Esclarecimento sobre uso de Dados
             </Button>
           </span>
         </Footer>
