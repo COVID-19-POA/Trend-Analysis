@@ -1,0 +1,40 @@
+{
+  "header": {
+    "title": "Análise sobre as tendências da pandemia de COVID-19",
+    "article": "Artigo"
+  },
+  "content": {
+    "expGrowth": {
+      "title": "Taxa de crescimento exponencial",
+      "content": {
+        "1": "A taxa, em percentual de aumento diário de casos, é mostrada na figura da esquerda como uma curva que varia no tempo, a partir do primeiro dia do surto de cada pais.",
+        "2": "Passando o mouse por cima da uma curva se visualiza o nome do país junto com dois números: o da esquerda indica o dia a contar do inicio local da epidemia, o da direita o valor da taxa de crescimento desse dia. Na janela pode ser definido um filtro numérico, para mostrar os países com mais casos que o valor do filtro.",
+        "3": "Os valores das taxas foram estimados a partir da média em um intervalo dos últimos sete dias de casos. (mais detalhes no link do artigo). Por conta disso, cada curva inicia-se no 7º dia de casos e o último valor de cada curva corresponde a taxa média do dia atual. O padrão diferente de cada curva é um forte indicativo da forma em que cada pais enfrentou e enfrenta a epidemia. Destaca-se o pico de Itália no dia 26 (24 Fevereiro 2020), quando a taxa de aumento diário chegou a ser de 140%. Isso significa que os casos desse dia duplicaram em apenas 17hs!",
+        "4": "Com poucas exceções (China, S. Korea ou US), o pico da taxa, geralmente maior do que 50%, aparece como uma caraterística comum a quase todos os países com mais de 5000 casos até 30 de Março. Depois do forte declínio posterior, correspondente a implantação de medidas de mitigação (como fechamento de escolas e comércios ou até mesmo quarentenas e controle de movimento), segue uma descida suave (a valores entre 10-20%). Na nossa interpretação, isso indica a necessidade de medidas mais fortes e de controles mais estritos para conseguir o controle da epidemia."
+      },
+      "chart": {
+        "numCases": "Número de Casos Acumulados",
+        "xAxis": "Dias a partir do primeiro caso",
+        "yAxis": "Taxa de crescimento percentual"
+      }
+    },
+    "growthRate": {
+      "title": "Taxa de crescimento por dia",
+      "content": {
+        "1": "No chart da direita podemos ver a distribuição da taxa de crescimento atual entre os países. O tamanho e valor da porção representam o percentual de países com uma taxa dentro de um intervalo.",
+        "2": "Os países que conseguiram controlar a epidemia (como China e South Korea), se mantendo em regime sub-exponencial (ou com R0 < 1), ou aparentam estar próximos de controlar (Japão), tem taxas inferiores a 10% (porção azul, 0-10%). Porém, quase todos os países estão ou continuam em regime de crescimento exponencial, independentemente da data inicial do surto, com taxas acima de 10%.",
+        "3": "Para se ter uma melhor ideia do significado de uma taxa superior a 10%, uma taxa de 20%, por exemplo, significa que o número de casos duplica em menos de 4 dias. E que se esse cenário for mantido por um mês, um país que hoje tem 1000 casos passará a ter 237000!"
+      }
+    }
+  },
+  "footer": {
+    "madeBy": "Feito por João Pedro Pianta, Albertine Weber e Sebastian Gonçalves",
+    "disclaimer": {
+      "title": "Esclarecimento sobre Uso de Dados",
+      "content": {
+        "1": "Os dados utilizados são atualizados diariamente do Data Repository by Center for Systems Science and Engineering.",
+        "2": "As analises completas e métodos utilizados estão publicados em"
+      }
+    }
+  }
+}

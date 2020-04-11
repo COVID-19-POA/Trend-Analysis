@@ -1,0 +1,40 @@
+{
+  "header": {
+    "title": "Trend analysis of the COVID-19 pandemic",
+    "article": "Article"
+  },
+  "content": {
+    "expGrowth": {
+      "title": "Exponential growth rate",
+      "content": {
+        "1": "The rate, as a percentage of daily increase in cases, is shown in the figure on the left as a line that varies over time, starting from the first day of each country's outbreak.",
+        "2": "Hovering the mouse over a curve, the name of the country is displayed along with two numbers: the one on the left indicates the day from the beginning of the epidemic, the one on the right the value of the growth rate, both at the day pointed by the mouse. A numeric filter can be defined in the window, to show the countries with more cases than the filter value.",
+        "3": "The rate values ​​were estimated from the average over an interval of the last seven days of cases. (more details in the article link). Because of this, each curve starts on the 7th day of cases and the last value of each curve corresponds to the average rate for the current day. The different pattern of each curve is a strong indication of the way in which each country faced and faces the epidemic. The peak of Italy stands out on the 26th (24 February 2020), when the daily rate of increase reached 140%. That means the cases of that day doubled in just 17 hours!",
+        "4": "With few exceptions (China, S. Korea or US), the peak rate, generally greater than 50%, appears as a feature common to almost all countries with more than 5000 cases by March 30th. After the strong decline later , corresponding to the implementation of mitigation measures (such as closing schools and shops or even quarantines and movement control), follows a smooth decline (at values ​​between 10-20%). In our interpretation, this indicates the need for stronger measures and stricter controls to achieve control of the epidemic."
+      },
+      "chart": {
+        "numCases": "Number of Accumulated Cases",
+        "xAxis": "Days from first case",
+        "yAxis": "Groth rate percentage"
+      }
+    },
+    "growthRate": {
+      "title": "Growth rate per day",
+      "content": {
+        "1": "The chart on the right shows the distribution of the current growth rate between countries. The portion size and value represent the percentage of countries with a rate within a range.",
+        "2": "Countries that managed to control the epidemic (such as China and South Korea), maintaining themselves in a sub-exponential regime (or with R0 <1), or appear to be close to controlling (Japan), have rates below 10% (blue portion, 0-10%). However, almost all countries are or continue to experience exponential growth, regardless of the initial date of the outbreak, with rates above 10%.",
+        "3": "To get a better idea of ​ the meaning of rates, a rate of 20% for example, means that the number of cases doubles in less than 4 days. And that if such rate is maintained for a month, a country that today has 1000 cases will have 237,000!"
+      }
+    }
+  },
+  "footer": {
+    "madeBy": "Made by João Pedro Pianta, Albertine Weber and Sebastian Gonçalves",
+    "disclaimer": {
+      "title": "Data disclaimer",
+      "content": {
+        "1": "The data used is daily updated by the Data Repository by the Center for Systems Science and Engineering.",
+        "2": "The complete analysis and methods used are published in"
+      }
+    }
+  }
+}

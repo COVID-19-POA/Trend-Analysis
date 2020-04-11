@@ -5,10 +5,12 @@ import { exponentialGrowthRateByCountry } from '../data/Transformations';
 import { IntegerInput } from '../helpers/IntegerInput';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { withTranslation } from 'react-i18next';
+import { languageController } from '../helpers/languageController';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-export class ExpGrowthRateChart extends Component {
+class ExpGrowthRateChart extends Component {
   constructor() {
     super();
 
@@ -27,22 +29,10 @@ export class ExpGrowthRateChart extends Component {
     this.chart.changeSize(parentElement.offsetWidth - 10, parentElement.offsetHeight >= 350 ? parentElement.offsetHeight - 10 : 350);
   }
 
-  updateChart = (covidData, filterNumberOfCases = 1000) => {
-    this.setState({ loaded: true })
-    covidData = exponentialGrowthRateByCountry(filterNumberOfCases)(covidData);
-
-    this.chart.changeData(covidData);
-
-    this.chart
-      .line()
-      .position('daysSinceFirstCase*expGrowth')
-      .color('name')
-      .shape('smooth')
-      .animate(false);
-
+  setAxis = () => {
     this.chart.scale('daysSinceFirstCase', {
       ticks: [7, 20, 40, 60],
-      alias: 'Dias a partir do primeiro caso'
+      alias: this.props.t('content.expGrowth.chart.xAxis')
     });
 
     this.chart.axis('daysSinceFirstCase', {
@@ -55,7 +45,7 @@ export class ExpGrowthRateChart extends Component {
     });
 
     this.chart.scale('expGrowth', {
-      alias: 'Taxa de crescimento percentual'
+      alias: this.props.t('content.expGrowth.chart.yAxis')
     });
 
     this.chart.axis('expGrowth', {
@@ -72,6 +62,22 @@ export class ExpGrowthRateChart extends Component {
     });
 
     this.chart.render();
+  }
+
+  updateChart = (covidData, filterNumberOfCases = 1000) => {
+    this.setState({ loaded: true })
+    covidData = exponentialGrowthRateByCountry(filterNumberOfCases)(covidData);
+
+    this.chart.changeData(covidData);
+
+    this.chart
+      .line()
+      .position('daysSinceFirstCase*expGrowth')
+      .color('name')
+      .shape('smooth')
+      .animate(false);
+
+    this.setAxis();
     this.updateChartSize();
   }
 
@@ -85,6 +91,7 @@ export class ExpGrowthRateChart extends Component {
     });
 
     dataManager.registerListener('base', this.updateChart);
+    languageController.addCallback(this.setAxis);
   }
 
   onChange = (value) => {
@@ -102,10 +109,12 @@ export class ExpGrowthRateChart extends Component {
           {this.state.loaded ? null : <Spin indicator={antIcon} />}
         </div>
         <div className="inpFlex">
-          <span>Número de Casos Acumulados: </span>
+        <span>{this.props.t('content.expGrowth.chart.numCases')}: </span>
           <IntegerInput value={this.state.value} onChange={this.onChange} />
         </div>
       </div>
     );
   }
 }
+
+export default withTranslation()(ExpGrowthRateChart)
